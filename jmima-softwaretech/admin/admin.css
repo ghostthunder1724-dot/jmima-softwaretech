@@ -27,3 +27,10 @@ button.secondary { background: #243451; border: 1px solid #3c5276; }
 .stats span { display: block; color: #a8b4ca; font-size: 12px; }
 .stats strong { display: block; margin-top: 12px; font-size: 30px; }
 @media (max-width: 560px) { .shell { padding: 24px 0; } .login-card, .dashboard-card { padding: 24px; } .dash-header { align-items: flex-start; flex-direction: column; } }
+.admin-logo {
+    display: block;
+    width: 180px;
+    height: auto;
+    object-fit: contain;
+    margin-bottom: 20px;
+}
