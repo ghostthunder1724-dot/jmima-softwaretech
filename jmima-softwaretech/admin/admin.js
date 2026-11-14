@@ -107,10 +107,9 @@ async function loadServices() {
 
   try {
     const data = await api("/api/admin/services");
-
-    const services = Array.isArray(data)
-      ? data
-      : data.services || [];
+const services = Array.isArray(data)
+  ? data
+  : data.data || data.services || [];
 
     servicesList.replaceChildren();
 
