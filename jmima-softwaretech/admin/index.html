@@ -10,7 +10,9 @@
 <body>
   <main class="shell">
     <section class="login-card" id="login-card">
-      <div class="brand-mark">JM</div>
+      <img src="/assets/jmima-logo.png"
+     alt="JMima SoftwareTech"
+     class="admin-logo">
       <p class="eyebrow">ÁREA RESTRITA</p>
       <h1>Painel administrativo</h1>
       <p class="muted">Inicia sessão para gerir a JMima SoftwareTech.</p>
@@ -26,7 +28,9 @@
     </section>
 
     <section class="dashboard-card hidden" id="dashboard-card">
-      <header class="dash-header">
+      <img src="/assets/jmima-logo.png"
+     alt="JMima SoftwareTech"
+     class="admin-logo">
         <div>
           <p class="eyebrow">JMIMA SOFTWARETECH</p>
           <h1>Visão geral</h1>
@@ -43,6 +47,49 @@
         <article><span>Pedidos de orçamento</span><strong id="quotes">—</strong></article>
       </div>
       <p class="message" id="dashboard-message" role="status"></p>
+      <section class="services-manager">
+  <div class="section-header">
+    <div>
+      <p class="eyebrow">GESTÃO DE CONTEÚDO</p>
+      <h2>Gestão de Serviços</h2>
+      <p class="muted">Adiciona, edita e administra os serviços da JMima.</p>
+    </div>
+    <button type="button" id="new-service-button">+ Novo serviço</button>
+  </div>
+
+  <form id="service-form" class="hidden">
+    <input type="hidden" id="service-id">
+
+    <label for="service-title-pt">Título em português</label>
+    <input id="service-title-pt" maxlength="150" required>
+
+    <label for="service-title-en">Título em inglês</label>
+    <input id="service-title-en" maxlength="150">
+
+    <label for="service-description-pt">Descrição em português</label>
+    <textarea id="service-description-pt" maxlength="2000"></textarea>
+
+    <label for="service-description-en">Descrição em inglês</label>
+    <textarea id="service-description-en" maxlength="2000"></textarea>
+
+    <label for="service-image-key">Identificador da imagem</label>
+    <input id="service-image-key" maxlength="500">
+
+    <label for="service-order">Ordem de apresentação</label>
+    <input id="service-order" type="number" min="0" max="9999" value="0">
+
+    <label>
+      <input id="service-active" type="checkbox" checked>
+      Serviço activo
+    </label>
+
+    <button type="submit" id="save-service-button">Guardar serviço</button>
+    <button type="button" id="cancel-service-button" class="secondary">Cancelar</button>
+  </form>
+
+  <p id="service-message" class="message" role="status"></p>
+  <div id="services-list"></div>
+</section>
       <p class="footnote">Esta é a primeira etapa do painel. Os módulos de gestão serão ligados nas próximas etapas.</p>
     </section>
   </main>
