@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="pt">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Administração | JMima SoftwareTech</title>
+  <link rel="stylesheet" href="/admin/admin.css">
+</head>
+<body>
+  <main class="shell">
+    <section class="login-card" id="login-card">
+      <div class="brand-mark">JM</div>
+      <p class="eyebrow">ÁREA RESTRITA</p>
+      <h1>Painel administrativo</h1>
+      <p class="muted">Inicia sessão para gerir a JMima SoftwareTech.</p>
+      <form id="login-form">
+        <label for="email">E-mail</label>
+        <input id="email" name="email" type="email" autocomplete="username" required maxlength="254">
+        <label for="password">Palavra-passe</label>
+        <input id="password" name="password" type="password" autocomplete="current-password" required maxlength="128">
+        <button id="login-button" type="submit">Entrar</button>
+        <p class="message" id="login-message" role="status" aria-live="polite"></p>
+      </form>
+      <p class="footnote">Acesso exclusivo a administradores autorizados.</p>
+    </section>
+
+    <section class="dashboard-card hidden" id="dashboard-card">
+      <header class="dash-header">
+        <div>
+          <p class="eyebrow">JMIMA SOFTWARETECH</p>
+          <h1>Visão geral</h1>
+        </div>
+        <button class="secondary" id="logout-button" type="button">Terminar sessão</button>
+      </header>
+      <p class="muted" id="welcome"></p>
+      <div class="role-chip" id="role"></div>
+      <div class="stats" id="stats">
+        <article><span>Clientes</span><strong id="clients">—</strong></article>
+        <article><span>Projetos</span><strong id="projects">—</strong></article>
+        <article><span>Serviços</span><strong id="services">—</strong></article>
+        <article><span>Portefólio</span><strong id="portfolio">—</strong></article>
+        <article><span>Pedidos de orçamento</span><strong id="quotes">—</strong></article>
+      </div>
+      <p class="message" id="dashboard-message" role="status"></p>
+      <p class="footnote">Esta é a primeira etapa do painel. Os módulos de gestão serão ligados nas próximas etapas.</p>
+    </section>
+  </main>
+  <script src="/admin/admin.js" defer></script>
+</body>
+</html>

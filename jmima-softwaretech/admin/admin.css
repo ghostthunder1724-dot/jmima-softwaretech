@@ -1,0 +1,29 @@
+* { box-sizing: border-box; }
+:root { color-scheme: dark; font-family: Inter, Segoe UI, Arial, sans-serif; background: #0b1020; color: #f4f6fb; }
+body { margin: 0; min-height: 100vh; background: radial-gradient(circle at top, #17284b 0, #0b1020 48%, #080c17 100%); }
+.shell { width: min(960px, calc(100% - 32px)); margin: 0 auto; padding: 64px 0; }
+.login-card, .dashboard-card { background: rgba(17, 25, 45, .96); border: 1px solid #2a3857; border-radius: 20px; box-shadow: 0 24px 80px rgba(0,0,0,.35); padding: 36px; }
+.login-card { width: min(460px, 100%); margin: 5vh auto 0; }
+.brand-mark { display: grid; place-items: center; width: 52px; height: 52px; border-radius: 14px; background: linear-gradient(135deg, #8fe6ff, #2677df); color: #071326; font-weight: 900; letter-spacing: -2px; font-size: 21px; }
+.eyebrow { color: #76c9ff; font-size: 11px; font-weight: 800; letter-spacing: .18em; margin: 22px 0 8px; }
+h1 { margin: 0 0 10px; font-size: clamp(26px, 4vw, 34px); }
+.muted, .footnote { color: #a8b4ca; line-height: 1.6; }
+form { margin-top: 28px; }
+label { display: block; margin: 18px 0 8px; color: #d9e2f2; font-size: 13px; font-weight: 650; }
+input { width: 100%; padding: 14px 15px; border: 1px solid #344563; border-radius: 10px; background: #0c1426; color: white; outline: none; }
+input:focus { border-color: #55aaff; box-shadow: 0 0 0 3px rgba(85,170,255,.14); }
+button { border: 0; border-radius: 10px; background: linear-gradient(135deg, #2688ee, #315de2); color: white; padding: 14px 18px; font-weight: 750; cursor: pointer; }
+form button { width: 100%; margin-top: 24px; }
+button:disabled { opacity: .65; cursor: wait; }
+button.secondary { background: #243451; border: 1px solid #3c5276; }
+.message { min-height: 22px; color: #ffb2a8; font-size: 13px; }
+.footnote { margin-top: 28px; font-size: 12px; }
+.hidden { display: none !important; }
+.dash-header { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+.dash-header .eyebrow { margin-top: 0; }
+.role-chip { display: inline-block; margin: 12px 0 24px; padding: 7px 12px; border-radius: 999px; background: #173b60; color: #9bd8ff; font-size: 12px; font-weight: 700; }
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(145px, 1fr)); gap: 14px; }
+.stats article { padding: 18px; border-radius: 13px; border: 1px solid #2b3b5b; background: #111d33; }
+.stats span { display: block; color: #a8b4ca; font-size: 12px; }
+.stats strong { display: block; margin-top: 12px; font-size: 30px; }
+@media (max-width: 560px) { .shell { padding: 24px 0; } .login-card, .dashboard-card { padding: 24px; } .dash-header { align-items: flex-start; flex-direction: column; } }
