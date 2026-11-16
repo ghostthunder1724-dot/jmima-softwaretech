@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="pt">
 <head>
@@ -9,36 +10,56 @@
 </head>
 <body>
   <main class="shell">
+
+    <!-- LOGIN -->
     <section class="login-card" id="login-card">
       <img src="/assets/jmima-logo.png"
-     alt="JMima SoftwareTech"
-     class="admin-logo">
+           alt="JMima SoftwareTech"
+           class="admin-logo">
+
       <p class="eyebrow">ÁREA RESTRITA</p>
       <h1>Painel administrativo</h1>
       <p class="muted">Inicia sessão para gerir a JMima SoftwareTech.</p>
+
       <form id="login-form">
         <label for="email">E-mail</label>
-        <input id="email" name="email" type="email" autocomplete="username" required maxlength="254">
+        <input id="email" name="email" type="email"
+               autocomplete="username" required maxlength="254">
+
         <label for="password">Palavra-passe</label>
-        <input id="password" name="password" type="password" autocomplete="current-password" required maxlength="128">
+        <input id="password" name="password" type="password"
+               autocomplete="current-password" required maxlength="128">
+
         <button id="login-button" type="submit">Entrar</button>
-        <p class="message" id="login-message" role="status" aria-live="polite"></p>
+        <p class="message" id="login-message"
+           role="status" aria-live="polite"></p>
       </form>
+
       <p class="footnote">Acesso exclusivo a administradores autorizados.</p>
     </section>
 
+    <!-- PAINEL PRINCIPAL -->
     <section class="dashboard-card hidden" id="dashboard-card">
-      <img src="/assets/jmima-logo.png"
-     alt="JMima SoftwareTech"
-     class="admin-logo">
+
+      <header class="dashboard-header">
+        <img src="/assets/jmima-logo.png"
+             alt="JMima SoftwareTech"
+             class="admin-logo">
+
         <div>
           <p class="eyebrow">JMIMA SOFTWARETECH</p>
           <h1>Visão geral</h1>
         </div>
-        <button class="secondary" id="logout-button" type="button">Terminar sessão</button>
+
+        <button class="secondary" id="logout-button" type="button">
+          Terminar sessão
+        </button>
       </header>
+
       <p class="muted" id="welcome"></p>
       <div class="role-chip" id="role"></div>
+
+      <!-- ESTATÍSTICAS -->
       <div class="stats" id="stats">
         <article><span>Clientes</span><strong id="clients">—</strong></article>
         <article><span>Projetos</span><strong id="projects">—</strong></article>
@@ -46,53 +67,136 @@
         <article><span>Portefólio</span><strong id="portfolio">—</strong></article>
         <article><span>Pedidos de orçamento</span><strong id="quotes">—</strong></article>
       </div>
+
       <p class="message" id="dashboard-message" role="status"></p>
+
+      <!-- GESTÃO DE SERVIÇOS -->
       <section class="services-manager">
-  <div class="section-header">
-    <div>
-      <p class="eyebrow">GESTÃO DE CONTEÚDO</p>
-      <h2>Gestão de Serviços</h2>
-      <p class="muted">Adiciona, edita e administra os serviços da JMima.</p>
-    </div>
-    <button type="button" id="new-service-button">+ Novo serviço</button>
-  </div>
+        <div class="section-header">
+          <div>
+            <p class="eyebrow">GESTÃO DE CONTEÚDO</p>
+            <h2>Gestão de Serviços</h2>
+            <p class="muted">Adiciona, edita e administra os serviços da JMima.</p>
+          </div>
 
-  <form id="service-form" class="hidden">
-    <input type="hidden" id="service-id">
+          <button type="button" id="new-service-button">
+            + Novo serviço
+          </button>
+        </div>
 
-    <label for="service-title-pt">Título em português</label>
-    <input id="service-title-pt" maxlength="150" required>
+        <form id="service-form" class="hidden">
+          <input type="hidden" id="service-id">
 
-    <label for="service-title-en">Título em inglês</label>
-    <input id="service-title-en" maxlength="150">
+          <label for="service-title-pt">Título em português</label>
+          <input id="service-title-pt" maxlength="150" required>
 
-    <label for="service-description-pt">Descrição em português</label>
-    <textarea id="service-description-pt" maxlength="2000"></textarea>
+          <label for="service-title-en">Título em inglês</label>
+          <input id="service-title-en" maxlength="150">
 
-    <label for="service-description-en">Descrição em inglês</label>
-    <textarea id="service-description-en" maxlength="2000"></textarea>
+          <label for="service-description-pt">Descrição em português</label>
+          <textarea id="service-description-pt" maxlength="2000"></textarea>
 
-    <label for="service-image-key">Identificador da imagem</label>
-    <input id="service-image-key" maxlength="500">
+          <label for="service-description-en">Descrição em inglês</label>
+          <textarea id="service-description-en" maxlength="2000"></textarea>
 
-    <label for="service-order">Ordem de apresentação</label>
-    <input id="service-order" type="number" min="0" max="9999" value="0">
+          <label for="service-image-key">Identificador da imagem</label>
+          <input id="service-image-key" maxlength="500">
 
-    <label>
-      <input id="service-active" type="checkbox" checked>
-      Serviço activo
-    </label>
+          <label for="service-order">Ordem de apresentação</label>
+          <input id="service-order" type="number"
+                 min="0" max="9999" value="0">
 
-    <button type="submit" id="save-service-button">Guardar serviço</button>
-    <button type="button" id="cancel-service-button" class="secondary">Cancelar</button>
-  </form>
+          <label>
+            <input id="service-active" type="checkbox" checked>
+            Serviço activo
+          </label>
 
-  <p id="service-message" class="message" role="status"></p>
-  <div id="services-list"></div>
-</section>
-      <p class="footnote">Esta é a primeira etapa do painel. Os módulos de gestão serão ligados nas próximas etapas.</p>
+          <button type="submit" id="save-service-button">
+            Guardar serviço
+          </button>
+
+          <button type="button" id="cancel-service-button" class="secondary">
+            Cancelar
+          </button>
+        </form>
+
+        <p id="service-message" class="message" role="status"></p>
+        <div id="services-list"></div>
+      </section>
+
+      <!-- GESTÃO DE CLIENTES -->
+      <section class="clients-manager">
+        <div class="section-header">
+          <div>
+            <p class="eyebrow">GESTÃO COMERCIAL</p>
+            <h2>Gestão de Clientes</h2>
+            <p class="muted">
+              Regista, consulta e administra os clientes da JMima.
+            </p>
+          </div>
+
+          <button type="button" id="new-client-button">
+            + Novo cliente
+          </button>
+        </div>
+
+        <form id="client-form" class="hidden">
+          <input type="hidden" id="client-id">
+
+          <label for="client-name">Nome do cliente *</label>
+          <input id="client-name" maxlength="150" required>
+
+          <label for="client-email">E-mail</label>
+          <input id="client-email" type="email" maxlength="254">
+
+          <label for="client-phone">Telefone</label>
+          <input id="client-phone" maxlength="40">
+
+          <label for="client-company">Empresa</label>
+          <input id="client-company" maxlength="150">
+
+          <label for="client-address">Endereço</label>
+          <input id="client-address" maxlength="500">
+
+          <label for="client-notes">Observações</label>
+          <textarea id="client-notes" maxlength="5000"></textarea>
+
+          <label for="client-status">Estado do cliente</label>
+          <select id="client-status">
+            <option value="active">Activo</option>
+            <option value="inactive">Inactivo</option>
+          </select>
+
+          <button type="submit" id="save-client-button">
+            Guardar cliente
+          </button>
+
+          <button type="button" id="cancel-client-button" class="secondary">
+            Cancelar
+          </button>
+        </form>
+
+        <p id="client-message" class="message" role="status"></p>
+
+        <div class="client-search">
+          <label for="client-search">Pesquisar clientes</label>
+          <input
+            id="client-search"
+            type="search"
+            placeholder="Nome, e-mail, telefone ou empresa..."
+          >
+        </div>
+
+        <div id="clients-list"></div>
+      </section>
+
+      <p class="footnote">
+        JMima SoftwareTech — Transformamos ideias em soluções digitais.
+      </p>
+
     </section>
   </main>
+
   <script src="/admin/admin.js" defer></script>
 </body>
 </html>
