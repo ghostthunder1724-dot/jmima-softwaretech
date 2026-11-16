@@ -5,13 +5,30 @@ const dashboardCard = document.querySelector("#dashboard-card");
 const loginMessage = document.querySelector("#login-message");
 const loginButton = document.querySelector("#login-button");
 
-// Elementos da gestão de serviços
+// =====================================================
+// ELEMENTOS DA GESTÃO DE SERVIÇOS
+// =====================================================
+
 const serviceForm = document.querySelector("#service-form");
 const serviceMessage = document.querySelector("#service-message");
 const servicesList = document.querySelector("#services-list");
 const newServiceButton = document.querySelector("#new-service-button");
 const cancelServiceButton = document.querySelector("#cancel-service-button");
 const saveServiceButton = document.querySelector("#save-service-button");
+
+// =====================================================
+// ELEMENTOS DA GESTÃO DE CLIENTES
+// =====================================================
+
+const clientForm = document.querySelector("#client-form");
+const clientMessage = document.querySelector("#client-message");
+const clientsList = document.querySelector("#clients-list");
+const newClientButton = document.querySelector("#new-client-button");
+const cancelClientButton = document.querySelector("#cancel-client-button");
+const saveClientButton = document.querySelector("#save-client-button");
+const clientSearch = document.querySelector("#client-search");
+
+let clientsCache = [];
 
 // =====================================================
 // COMUNICAÇÃO COM A API
@@ -33,6 +50,7 @@ async function api(path, options = {}) {
     const error = new Error(
       data.message || `Erro HTTP ${response.status}`
     );
+
     error.status = response.status;
     throw error;
   }
@@ -107,15 +125,18 @@ async function loadServices() {
 
   try {
     const data = await api("/api/admin/services");
-const services = Array.isArray(data)
-  ? data
-  : data.data || data.services || [];
+
+    const services = Array.isArray(data)
+      ? data
+      : data.data || data.services || [];
 
     servicesList.replaceChildren();
 
     if (!services.length) {
       const emptyMessage = document.createElement("p");
-      emptyMessage.textContent = "Ainda não existem serviços registados.";
+      emptyMessage.textContent =
+        "Ainda não existem serviços registados.";
+
       servicesList.appendChild(emptyMessage);
       return;
     }
@@ -152,7 +173,14 @@ const services = Array.isArray(data)
         deleteService(service.id);
       });
 
-      item.append(title, description, status, editButton, deleteButton);
+      item.append(
+        title,
+        description,
+        status,
+        editButton,
+        deleteButton
+      );
+
       servicesList.appendChild(item);
     });
 
@@ -214,7 +242,9 @@ serviceForm.addEventListener("submit", async (event) => {
 
   try {
     await api(
-      id ? `/api/admin/services/${encodeURIComponent(id)}` : "/api/admin/services",
+      id
+        ? `/api/admin/services/${encodeURIComponent(id)}`
+        : "/api/admin/services",
       {
         method: id ? "PUT" : "POST",
         body: JSON.stringify(serviceData)
@@ -253,7 +283,8 @@ async function deleteService(id) {
       { method: "DELETE" }
     );
 
-    serviceMessage.textContent = "Serviço eliminado com sucesso!";
+    serviceMessage.textContent =
+      "Serviço eliminado com sucesso!";
 
     await loadServices();
     await loadDashboard();
@@ -264,9 +295,300 @@ async function deleteService(id) {
   }
 }
 
-// Botões da gestão
 newServiceButton.addEventListener("click", openNewServiceForm);
 cancelServiceButton.addEventListener("click", closeServiceForm);
+
+// =====================================================
+// GESTÃO DE CLIENTES
+// =====================================================
+
+function clearClientForm() {
+  clientForm.reset();
+
+  document.querySelector("#client-id").value = "";
+  document.querySelector("#client-status").value = "active";
+
+  saveClientButton.textContent = "Guardar cliente";
+}
+
+function openNewClientForm() {
+  clearClientForm();
+
+  clientMessage.textContent = "";
+  clientForm.classList.remove("hidden");
+
+  document.querySelector("#client-name").focus();
+}
+
+function closeClientForm() {
+  clientForm.classList.add("hidden");
+  clearClientForm();
+}
+
+function renderClients(clients) {
+  clientsList.replaceChildren();
+
+  if (!clients.length) {
+    const emptyMessage = document.createElement("p");
+    emptyMessage.textContent = "Nenhum cliente encontrado.";
+
+    clientsList.appendChild(emptyMessage);
+    return;
+  }
+
+  clients.forEach((client) => {
+    const item = document.createElement("article");
+    item.className = "client-item";
+
+    const title = document.createElement("h3");
+    title.textContent = client.name;
+
+    const company = document.createElement("p");
+    company.textContent =
+      `Empresa: ${client.company || "Não indicada"}`;
+
+    const email = document.createElement("p");
+    email.textContent =
+      `E-mail: ${client.email || "Não indicado"}`;
+
+    const phone = document.createElement("p");
+    phone.textContent =
+      `Telefone: ${client.phone || "Não indicado"}`;
+
+    const address = document.createElement("p");
+    address.textContent =
+      `Endereço: ${client.address || "Não indicado"}`;
+
+    const status = document.createElement("p");
+    status.textContent =
+      client.status === "active"
+        ? "Estado: Activo"
+        : "Estado: Inactivo";
+
+    const notes = document.createElement("p");
+    notes.textContent =
+      `Observações: ${client.notes || "Nenhuma"}`;
+
+    const editButton = document.createElement("button");
+    editButton.type = "button";
+    editButton.textContent = "Editar";
+
+    editButton.addEventListener("click", () => {
+      editClient(client);
+    });
+
+    const toggleButton = document.createElement("button");
+    toggleButton.type = "button";
+    toggleButton.className = "secondary";
+
+    toggleButton.textContent =
+      client.status === "active"
+        ? "Desactivar"
+        : "Activar";
+
+    toggleButton.addEventListener("click", () => {
+      toggleClientStatus(client);
+    });
+
+    const deleteButton = document.createElement("button");
+    deleteButton.type = "button";
+    deleteButton.className = "secondary";
+    deleteButton.textContent = "Eliminar";
+
+    deleteButton.addEventListener("click", () => {
+      deleteClient(client.id);
+    });
+
+    item.append(
+      title,
+      company,
+      email,
+      phone,
+      address,
+      status,
+      notes,
+      editButton,
+      toggleButton,
+      deleteButton
+    );
+
+    clientsList.appendChild(item);
+  });
+}
+
+async function loadClients() {
+  clientsList.textContent = "A carregar clientes...";
+  clientMessage.textContent = "";
+
+  try {
+    const data = await api("/api/admin/clients");
+
+    clientsCache = Array.isArray(data)
+      ? data
+      : data.data || data.clients || [];
+
+    filterClients();
+
+  } catch (error) {
+    clientsList.textContent = "";
+
+    clientMessage.textContent =
+      `Não foi possível carregar os clientes: ${error.message}`;
+  }
+}
+
+function filterClients() {
+  const search = clientSearch.value.trim().toLowerCase();
+
+  const filteredClients = clientsCache.filter((client) => {
+    const searchableText = [
+      client.name,
+      client.email,
+      client.phone,
+      client.company,
+      client.address
+    ].join(" ").toLowerCase();
+
+    return searchableText.includes(search);
+  });
+
+  renderClients(filteredClients);
+}
+
+function editClient(client) {
+  clientMessage.textContent = "";
+
+  document.querySelector("#client-id").value = client.id;
+  document.querySelector("#client-name").value = client.name || "";
+  document.querySelector("#client-email").value = client.email || "";
+  document.querySelector("#client-phone").value = client.phone || "";
+  document.querySelector("#client-company").value = client.company || "";
+  document.querySelector("#client-address").value = client.address || "";
+  document.querySelector("#client-notes").value = client.notes || "";
+  document.querySelector("#client-status").value =
+    client.status || "active";
+
+  saveClientButton.textContent = "Actualizar cliente";
+  clientForm.classList.remove("hidden");
+
+  document.querySelector("#client-name").focus();
+}
+
+clientForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
+
+  clientMessage.textContent = "";
+  saveClientButton.disabled = true;
+
+  const id = document.querySelector("#client-id").value;
+
+  const clientData = {
+    name: document.querySelector("#client-name").value.trim(),
+    email: document.querySelector("#client-email").value.trim(),
+    phone: document.querySelector("#client-phone").value.trim(),
+    company: document.querySelector("#client-company").value.trim(),
+    address: document.querySelector("#client-address").value.trim(),
+    notes: document.querySelector("#client-notes").value.trim(),
+    status: document.querySelector("#client-status").value
+  };
+
+  try {
+    await api(
+      id
+        ? `/api/admin/clients/${encodeURIComponent(id)}`
+        : "/api/admin/clients",
+      {
+        method: id ? "PUT" : "POST",
+        body: JSON.stringify(clientData)
+      }
+    );
+
+    clientMessage.textContent = id
+      ? "Cliente actualizado com sucesso!"
+      : "Cliente registado com sucesso!";
+
+    closeClientForm();
+
+    await loadClients();
+    await loadDashboard();
+
+  } catch (error) {
+    clientMessage.textContent =
+      `Erro ao guardar cliente: ${error.message}`;
+  } finally {
+    saveClientButton.disabled = false;
+  }
+});
+
+async function toggleClientStatus(client) {
+  const newStatus =
+    client.status === "active" ? "inactive" : "active";
+
+  const clientData = {
+    name: client.name,
+    email: client.email || "",
+    phone: client.phone || "",
+    company: client.company || "",
+    address: client.address || "",
+    notes: client.notes || "",
+    status: newStatus
+  };
+
+  clientMessage.textContent = "";
+
+  try {
+    await api(
+      `/api/admin/clients/${encodeURIComponent(client.id)}`,
+      {
+        method: "PUT",
+        body: JSON.stringify(clientData)
+      }
+    );
+
+    clientMessage.textContent =
+      newStatus === "active"
+        ? "Cliente activado com sucesso!"
+        : "Cliente desactivado com sucesso!";
+
+    await loadClients();
+
+  } catch (error) {
+    clientMessage.textContent =
+      `Erro ao alterar estado do cliente: ${error.message}`;
+  }
+}
+
+async function deleteClient(id) {
+  const confirmed = confirm(
+    "Tens a certeza de que pretendes eliminar este cliente? " +
+    "Os projectos associados serão mantidos."
+  );
+
+  if (!confirmed) return;
+
+  clientMessage.textContent = "";
+
+  try {
+    await api(
+      `/api/admin/clients/${encodeURIComponent(id)}`,
+      { method: "DELETE" }
+    );
+
+    clientMessage.textContent =
+      "Cliente eliminado com sucesso!";
+
+    await loadClients();
+    await loadDashboard();
+
+  } catch (error) {
+    clientMessage.textContent =
+      `Erro ao eliminar cliente: ${error.message}`;
+  }
+}
+
+newClientButton.addEventListener("click", openNewClientForm);
+cancelClientButton.addEventListener("click", closeClientForm);
+clientSearch.addEventListener("input", filterClients);
 
 // =====================================================
 // LOGIN
@@ -294,7 +616,8 @@ form.addEventListener("submit", async (event) => {
 
     await Promise.allSettled([
       loadDashboard(),
-      loadServices()
+      loadServices(),
+      loadClients()
     ]);
 
   } catch (error) {
@@ -336,7 +659,8 @@ document.querySelector("#logout-button").addEventListener("click", async () => {
 
     await Promise.allSettled([
       loadDashboard(),
-      loadServices()
+      loadServices(),
+      loadClients()
     ]);
 
   } catch {
