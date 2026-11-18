@@ -188,11 +188,159 @@
         </div>
 
         <div id="clients-list"></div>
+      
+      </section>
+
+      <!-- GESTÃO DE PROJECTOS -->
+      <section class="projects-manager">
+
+        <div class="section-header">
+          <div>
+            <p class="eyebrow">GESTÃO OPERACIONAL</p>
+            <h2>Gestão de Projectos</h2>
+            <p class="muted">
+              Regista, acompanha e administra os projectos dos teus clientes.
+            </p>
+          </div>
+
+          <button type="button" id="new-project-button">
+            + Novo projecto
+          </button>
+        </div>
+
+        <!-- INDICADORES -->
+        <div class="project-stats">
+          <article>
+            <span>Total de projectos</span>
+            <strong id="project-total">0</strong>
+          </article>
+
+          <article>
+            <span>Em andamento</span>
+            <strong id="project-progress">0</strong>
+          </article>
+
+          <article>
+            <span>Concluídos</span>
+            <strong id="project-completed">0</strong>
+          </article>
+
+          <article>
+            <span>Pendentes</span>
+            <strong id="project-pending">0</strong>
+          </article>
+        </div>
+
+        <!-- FORMULÁRIO -->
+        <form id="project-form" class="hidden">
+
+          <input type="hidden" id="project-id">
+
+          <label for="project-title">Nome do projecto *</label>
+          <input
+            id="project-title"
+            maxlength="150"
+            required
+          >
+
+          <label for="project-client">Cliente associado</label>
+          <select id="project-client">
+            <option value="">Sem cliente associado</option>
+          </select>
+
+          <label for="project-description">Descrição</label>
+          <textarea
+            id="project-description"
+            maxlength="5000"
+            rows="4"
+          ></textarea>
+
+          <label for="project-status">Estado do projecto</label>
+          <select id="project-status">
+            <option value="pending">Pendente</option>
+            <option value="in_progress">Em andamento</option>
+            <option value="paused">Pausado</option>
+            <option value="completed">Concluído</option>
+            <option value="cancelled">Cancelado</option>
+          </select>
+
+          <label for="project-start-date">Data de início</label>
+          <input
+            id="project-start-date"
+            type="date"
+          >
+
+          <label for="project-deadline">Prazo de entrega</label>
+          <input
+            id="project-deadline"
+            type="date"
+          >
+
+          <label for="project-budget">Orçamento (Kz)</label>
+          <input
+            id="project-budget"
+            type="number"
+            min="0"
+            step="0.01"
+            placeholder="Ex.: 250000"
+          >
+
+          <button type="submit" id="save-project-button">
+            Guardar projecto
+          </button>
+
+          <button
+            type="button"
+            id="cancel-project-button"
+            class="secondary"
+          >
+            Cancelar
+          </button>
+
+        </form>
+
+        <p
+          id="project-message"
+          class="message"
+          role="status"
+          aria-live="polite"
+        ></p>
+
+        <!-- PESQUISA E FILTROS -->
+        <div class="project-filters">
+
+          <div>
+            <label for="project-search">Pesquisar projectos</label>
+            <input
+              id="project-search"
+              type="search"
+              placeholder="Nome do projecto ou cliente..."
+            >
+          </div>
+
+          <div>
+            <label for="project-filter-status">Filtrar por estado</label>
+            <select id="project-filter-status">
+              <option value="">Todos os estados</option>
+              <option value="pending">Pendentes</option>
+              <option value="in_progress">Em andamento</option>
+              <option value="paused">Pausados</option>
+              <option value="completed">Concluídos</option>
+              <option value="cancelled">Cancelados</option>
+            </select>
+          </div>
+
+        </div>
+
+        <!-- LISTA DE PROJECTOS -->
+        <div id="projects-list"></div>
+
       </section>
 
       <p class="footnote">
         JMima SoftwareTech — Transformamos ideias em soluções digitais.
       </p>
+
 
     </section>
   </main>
